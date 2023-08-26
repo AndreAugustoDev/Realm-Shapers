@@ -1,0 +1,45 @@
+apply plugin: libs.plugins.shadow.get().pluginId
+
+evaluationDependsOn(':common')
+
+def loomPlatform = project.property('loom.platform')
+
+architectury {
+  platformSetupLoomIde()
+
+  if (loomPlatform == 'fabric') fabric()
+  else if (loomPlatform == 'forge') forge()
+  else if (loomPlatform == 'quilt') loader(loomPlatform)
+  else throw new GradleException("Unknown 'loom.platform' value: ${loomPlatform} for project: '${project.name}' ('${project.path}')")
+}
+
+configurations {
+  common
+  shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
+  compileClasspath.extendsFrom(common)
+  runtimeClasspath.extendsFrom(common)
+  create("development${loomPlatform.capitalize()}") {extendsFrom(common)}
+}
+
+loom {
+  if (loomPlatform == 'forge') {
+    forge {
+      if (accessWidenerFile.exists()) {
+        convertAccessWideners.set(true)
+        extraAccessWideners.add(accessWidenerFile.name)
+      }
+
+      if (file("src/main/resources/${MOD_ID}.mixins.json").exists()) {
+        mixinConfig "${MOD_ID}.mixins.json"
+      }
+
+      if (getRootProject().file("common/src/main/resources/${MOD_ID}.common.mixins.json").exists()) {
+        mixinConfig "${MOD_ID}.common.mixins.json"
+      }
+
+      dataGen {
+        mod "${MOD_ID}"
+      }
+    }
+  }
+}

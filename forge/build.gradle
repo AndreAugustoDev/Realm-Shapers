@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    alias(libs.plugins.shadow)
 }
 
 architectury {
@@ -13,21 +13,33 @@ loom {
     forge {
         convertAccessWideners = true
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
+        if (accessWidenerPath.asFile.get().exists()) {
+            convertAccessWideners.set(true)
+            extraAccessWideners.add(accessWidenerFile.name)
+        }
+
+        if (file("src/main/resources/${mod_id}.mixins.json").exists()) {
+            mixinConfig("${mod_id}.mixins.json")
+        }
+
+        if (getRootProject().file("common/src/main/resources/${mod_id}.common.mixins.json").exists()) {
+            mixinConfig("${mod_id}.common.mixins.json")
+        }
     }
 }
 
 configurations {
     common
     shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentForge.extendsFrom common
+    compileClasspath.extendsFrom(common)
+    runtimeClasspath.extendsFrom(common)
+    developmentForge.extendsFrom(common)
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.forge_version}"
+    forge(libs.forge.loader)
     // Remove the next line if you don't want to depend on the API
-    modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
+    modApi(libs.architectury.forge)
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
@@ -74,7 +86,7 @@ components.java {
 publishing {
     publications {
         mavenForge(MavenPublication) {
-            artifactId = rootProject.archives_base_name + "-" + project.name
+            artifactId = rootProject.archivesBaseName + "-" + project.name
             from components.java
         }
     }
