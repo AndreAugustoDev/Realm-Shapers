@@ -1,0 +1,76 @@
+[versions]
+sponge_mixin = "0.8.5"
+minecraft = "1.20.1"
+game_version_range = "[1.20,)"
+
+# Forge
+# https://docs.minecraftforge.net/en/latest/gettingstarted/
+forge_loader = "1.20.1-47.1.0"
+forge_version_loader = "[47,)"
+forge_version_range = "[47,)"
+
+# Fabric
+# https://fabricmc.net/develop/
+fabric_loader = "0.14.22"
+fabric_api = "0.87.0+1.20.1"
+yarn_mappings = "1.20.1+build.10"
+
+# Quilt
+# https://lambdaurora.dev/tools/import_quilt.html
+quilt_mappings = "1.20.1+build.23"
+quilt_loader = "0.20.1"
+quilt_stdlib = "6.1.1+1.20.1"
+quilted_fabric_api = "7.1.2+0.87.0-1.20.1"
+
+# Architectury
+# https://maven.architectury.dev/architectury-plugin/architectury-plugin.gradle.plugin
+# https://maven.architectury.dev/dev/architectury/loom/dev.architectury.loom.gradle.plugin
+architectury_api = "9.1.12"
+architectury_plugin = "3.4-SNAPSHOT"
+architectury_loom = "1.1-SNAPSHOT"
+
+# Shadow
+# https://github.com/johnrengelman/shadow
+shadow = "7.1.2"
+
+# ModMenu
+modmenu = "7.2.1"
+
+[libraries]
+sponge_mixin = { module = "org.spongepowered:mixin", version.ref = "sponge_mixin" }
+minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+
+# Forge
+forge_loader = { module = "net.minecraftforge:forge", version.ref = "forge_loader" }
+
+# Fabric
+fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
+fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric_api" }
+yarn_mappings = { module = "net.fabricmc:yarn", version.ref = "yarn_mappings" }
+
+# Quilt
+quilt_mappings = { module = "org.quiltmc:quilt-mappings", version.ref = "quilt_mappings" }
+quilt_loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt_loader" }
+quilt_stdlib = { module = "org.quiltmc:qsl", version.ref = "quilt_stdlib" }
+# Quilted Fabric API
+quilted_fabric_api = { module = "org.quiltmc.quilted-fabric-api:quilted-fabric-api", version.ref = "quilted_fabric_api" }
+quilted_fabric_api_deprecated = { module = "org.quiltmc.quilted-fabric-api:quilted-fabric-api-deprecated", version.ref = "quilted_fabric_api" }
+
+# Architectury
+architectury_api = { module = "dev.architectury:architectury", version.ref = "architectury_api" }
+architectury_fabric = { module = "dev.architectury:architectury-fabric", version.ref = "architectury_api" }
+architectury_forge = { module = "dev.architectury:architectury-forge", version.ref = "architectury_api" }
+
+# ModMenu
+modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
+
+# If you have multiple similar dependencies, you can declare a dependency bundle and reference it on the build script with "libs.bundles.example".
+[bundles]
+# fabric_api = ["fabric_api", "fabric_api_deprecated"]
+quilted_fabric_api = ["quilted_fabric_api", "quilted_fabric_api_deprecated"]
+
+[plugins]
+idea_ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.+" }
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+architectury_plugin = { id = "architectury-plugin", version.ref = "architectury_plugin" }
+architectury_loom = { id = "dev.architectury.loom", version.ref = "architectury_loom" }
