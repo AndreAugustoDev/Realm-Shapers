@@ -12,10 +12,6 @@ subprojects {
 
     loom {
         silentMojangMappingsLicense()
-
-        if (accessWidenerFile.exists()) {
-            accessWidenerPath = accessWidenerFile
-        }
     }
 
     dependencies {
@@ -30,7 +26,7 @@ subprojects {
 
 allprojects {
     apply plugin: "java"
-    apply plugin: libs.plugins.architectury.plugin
+    apply plugin: libs.plugins.architectury.plugin.get().pluginId
     apply plugin: "maven-publish"
 
     archivesBaseName = project.mod_id+'-'+project.mod_name

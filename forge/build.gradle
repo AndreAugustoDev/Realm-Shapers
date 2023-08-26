@@ -13,18 +13,6 @@ loom {
     forge {
         convertAccessWideners = true
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
-        if (accessWidenerPath.asFile.get().exists()) {
-            convertAccessWideners.set(true)
-            extraAccessWideners.add(accessWidenerFile.name)
-        }
-
-        if (file("src/main/resources/${mod_id}.mixins.json").exists()) {
-            mixinConfig("${mod_id}.mixins.json")
-        }
-
-        if (getRootProject().file("common/src/main/resources/${mod_id}.common.mixins.json").exists()) {
-            mixinConfig("${mod_id}.common.mixins.json")
-        }
     }
 }
 
@@ -46,10 +34,12 @@ dependencies {
 }
 
 processResources {
-    inputs.property "version", project.version
+    project.properties.each {
+        inputs.property "${it.key}", "${it.value}"
+    }
 
     filesMatching("META-INF/mods.toml") {
-        expand "version": project.version
+        expand project.properties
     }
 }
 

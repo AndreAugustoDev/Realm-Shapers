@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "examplemod",
-  "version": "${version}",
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
   "authors": [
     "Me!"
   ],
@@ -12,7 +12,7 @@
     "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
   "license": "Insert License Here",
-  "icon": "assets/examplemod/icon.png",
+  "icon": "assets/${mod_id}/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
